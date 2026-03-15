@@ -1,6 +1,6 @@
 const readline = require("readline");
 const os = require("os");
-const { up, ls } = require("./navigation");
+const { up, ls, cd } = require("./navigation");
 
 const rl = readline.createInterface({
   input: process.stdin,
@@ -21,22 +21,38 @@ const start = () => {
   console.log(`You are currently in ${currentWorkingDirectory}`);
 
   const handleCommand = async (command) => {
+    const parts = command.trim().split(/\s+/);
+    const cmd = parts[0];
+    const arg = parts[1];
+
     try {
       if (command === ".exit") {
         exitApp();
         return;
       }
 
-      if (command === "up") {
+      if (cmd === "up") {
         const newDir = up(currentWorkingDirectory);
         currentWorkingDirectory = newDir;
         console.log(`You are currently in ${currentWorkingDirectory}`);
         return;
       }
 
-      if (command === "ls") {
+      if (cmd === "ls") {
         const entries = await ls(currentWorkingDirectory);
         entries.forEach((entry) => console.log(entry));
+        console.log(`You are currently in ${currentWorkingDirectory}`);
+        return;
+      }
+
+      if (cmd === "cd") {
+        if (!arg) {
+          console.log("Invalid input");
+          return;
+        }
+
+        const newDir = await cd(currentWorkingDirectory, arg);
+        currentWorkingDirectory = newDir;
         console.log(`You are currently in ${currentWorkingDirectory}`);
         return;
       }

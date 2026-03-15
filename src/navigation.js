@@ -23,4 +23,15 @@ const ls = async (currentDir) => {
   return [...folders, ...files];
 };
 
-module.exports = { up, ls };
+const cd = async (currentDir, targetPath) => {
+  const resolvedPath = path.resolve(currentDir, targetPath);
+  const stat = await fs.stat(resolvedPath);
+
+  if (!stat.isDirectory()) {
+    throw new Error("Not a directory");
+  }
+
+  return resolvedPath;
+};
+
+module.exports = { up, ls, cd };
