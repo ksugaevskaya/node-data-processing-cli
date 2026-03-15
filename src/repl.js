@@ -21,25 +21,29 @@ const start = () => {
   console.log(`You are currently in ${currentWorkingDirectory}`);
 
   const handleCommand = async (command) => {
-    if (command === ".exit") {
-      exitApp();
-      return;
-    }
+    try {
+      if (command === ".exit") {
+        exitApp();
+        return;
+      }
 
-    if (command === "up") {
-      const newDir = up(currentWorkingDirectory);
-      currentWorkingDirectory = newDir;
-      console.log(`You are currently in ${newDir}`);
-      return;
-    }
+      if (command === "up") {
+        const newDir = up(currentWorkingDirectory);
+        currentWorkingDirectory = newDir;
+        console.log(`You are currently in ${newDir}`);
+        return;
+      }
 
-    if (command === "ls") {
-      const entries = await ls(currentWorkingDirectory);
-      entries.forEach((entry) => console.log(entry));
-      return;
-    }
+      if (command === "ls") {
+        const entries = await ls(currentWorkingDirectory);
+        entries.forEach((entry) => console.log(entry));
+        return;
+      }
 
-    console.log("Invalid input");
+      console.log("Invalid input");
+    } catch {
+      console.log("Operation failed");
+    }
   };
 
   rl.prompt();
