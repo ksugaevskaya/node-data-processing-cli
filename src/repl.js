@@ -19,6 +19,8 @@ const start = () => {
       exitApp();
       return;
     }
+
+    console.log("Invalid input");
   };
 
   rl.prompt();
