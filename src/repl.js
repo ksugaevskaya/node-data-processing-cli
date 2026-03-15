@@ -1,6 +1,6 @@
 const readline = require("readline");
 const os = require("os");
-const { up } = require("./navigation");
+const { up, ls } = require("./navigation");
 
 const rl = readline.createInterface({
   input: process.stdin,
@@ -20,7 +20,7 @@ rl.on("SIGINT", exitApp);
 const start = () => {
   console.log(`You are currently in ${currentWorkingDirectory}`);
 
-  const handleCommand = (command) => {
+  const handleCommand = async (command) => {
     if (command === ".exit") {
       exitApp();
       return;
@@ -30,6 +30,12 @@ const start = () => {
       const newDir = up(currentWorkingDirectory);
       currentWorkingDirectory = newDir;
       console.log(`You are currently in ${newDir}`);
+      return;
+    }
+
+    if (command === "ls") {
+      const entries = await ls(currentWorkingDirectory);
+      entries.forEach((entry) => console.log(entry));
       return;
     }
 
