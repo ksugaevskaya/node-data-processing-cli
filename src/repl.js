@@ -30,13 +30,14 @@ const start = () => {
       if (command === "up") {
         const newDir = up(currentWorkingDirectory);
         currentWorkingDirectory = newDir;
-        console.log(`You are currently in ${newDir}`);
+        console.log(`You are currently in ${currentWorkingDirectory}`);
         return;
       }
 
       if (command === "ls") {
         const entries = await ls(currentWorkingDirectory);
         entries.forEach((entry) => console.log(entry));
+        console.log(`You are currently in ${currentWorkingDirectory}`);
         return;
       }
 
